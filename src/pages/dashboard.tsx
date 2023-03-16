@@ -1,7 +1,9 @@
 import MapContainer from '@/containers/MapContainer';
 import LocalItem from '@/types/local';
-import React, { useState } from 'react';
+import { GetStaticPropsContext } from 'next';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const DashboardCmpt = styled.div`
   width: 100%;
@@ -13,7 +15,33 @@ const DashboardCmpt = styled.div`
   }
 `;
 
-export default function Dashboard() {
+//SSR
+// export async function getServerSideProps(context: GetServerSideProps) {
+export async function getServerSideProps(context: GetStaticPropsContext) {
+  const locals = await fetch(
+    `${process.env.API_SERVER}/api/local/locals?siteIndex=SITE05700`,
+  )
+    .then((res) => {
+      console.log(res);
+      return res.json();
+    })
+    .then((data) => {
+      console.log('data->>', data);
+      return data;
+    });
+  // console.log('------->', locals);
+  return {
+    props: {
+      locals: locals,
+    },
+  };
+}
+
+export default function Dashboard({ locals }: { locals: LocalItem[] }) {
+  useEffect(() => {
+    console.log('locals->', locals);
+  }, []);
+
   const [localItems, setLocalItems] = useState<LocalItem[]>([
     {
       local_id: 53,
@@ -81,10 +109,18 @@ export default function Dashboard() {
     },
   ]);
 
+  // useEffect(() => {
+  //   axios
+  //     .get('http://192.168.0.39:9096/api/local/locals?siteIndex=SITE05700')
+  //     .then((res) => {
+  //       console.log(res.data);
+  //     });
+  // }, []);
+
   return (
     <DashboardCmpt>
       <div className="map-area">
-        <MapContainer localItems={localItems} />
+        <MapContainer localItems={locals} />
       </div>
     </DashboardCmpt>
   );

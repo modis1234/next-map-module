@@ -6,6 +6,9 @@ https://hojung-testbench.tistory.com/m/entry/NextJS-CRATypeScript-%EC%97%90%EC%8
 
 2. next.js styled-components 적용하기
    https://mniyunsu.github.io/nextjs-styled-component-setting/
-   https://styled-components.com/docs/advanced#nextjs
    https://github.com/vercel/next.js/tree/canary/examples/with-styled-components
    https://codesandbox.io/s/github/vercel/next.js/tree/canary/examples/with-styled-components?file=/next.config.js
+
+## NextJS PM2로 배포하기
+
+- https://dykraf.com/blog/deploying-nextjs-web-application-with-pm2
